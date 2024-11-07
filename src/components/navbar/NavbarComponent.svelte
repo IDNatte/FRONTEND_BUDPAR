@@ -7,6 +7,7 @@
   import SearchDarkIcon from "../../assets/svg/SearchDarkIcon.svelte";
   import LoginIcon from "../../assets/svg/LoginIcon.svelte";
   import WordIcon from "../../assets/svg/WordIcon.svelte";
+  import CalendarIcon from "../../assets/svg/CalendarIcon.svelte";
 </script>
 
 <nav
@@ -37,6 +38,10 @@
   </div>
 
   <div class="hidden md:flex md:items-center __navbar-button">
+    <a class="flex items-center px-6" href="/event-calendar" use:link>
+      <CalendarIcon />
+      <span class="pl-3">Kalender Event</span>
+    </a>
     <a class="flex items-center px-6" href="/tour-list" use:link>
       <WordIcon />
       <span class="pl-3">Wisata</span>

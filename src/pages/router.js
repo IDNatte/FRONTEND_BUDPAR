@@ -40,7 +40,7 @@ export const routes = {
   "/news-detail": wrap({
     asyncComponent: () => import('./content/NewsDetailPage.svelte')
   }),
-  
+
   "/event-detail": wrap({
     asyncComponent: () => import('./content/EventDetailPage.svelte')
   }),
@@ -55,6 +55,11 @@ export const routes = {
 
   "/resto-detail": wrap({
     asyncComponent: () => import('./content/RestoDetailPage.svelte')
+  }),
+
+  // kalender event
+  "/event-calendar": wrap({
+    asyncComponent: () => import('./misc/calendar/EventcalendarPage.svelte')
   }),
 
   // Not Found page

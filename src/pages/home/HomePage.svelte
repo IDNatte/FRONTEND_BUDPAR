@@ -29,7 +29,7 @@
   async function fetchData() {
     let news = await fetch(`${API}/articles?paginate=3`);
     let activity = await fetch(
-      `${API}/articleByTag?tag=Event+Wisata&paginate=3`
+      `${API}/articleByTag?tag=Event+Wisata&paginate=3`,
     );
     let popularTour = await fetch(`${API}/tourist-attractions/popular`);
     let slider = await fetch(`${API}/sliders`);
@@ -75,7 +75,7 @@
 
   async function getTourListByCategory(id) {
     let tour = await fetch(
-      `${API}/tourist-attractions/${id}/byCategory?paginate=4`
+      `${API}/tourist-attractions/${id}/byCategory?paginate=4`,
     );
 
     if (tour.status === 200) {

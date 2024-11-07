@@ -34,5 +34,6 @@
     "svelte-lazy": "^1.1.0",
     "svelte-spa-router": "^3.2.0",
     "svelte-tabs": "^1.1.0"
-  }
+  },
+  "packageManager": "yarn@4.5.1"
 }

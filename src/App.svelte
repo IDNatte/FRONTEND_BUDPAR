@@ -54,7 +54,8 @@
 
   <ModalComponent className="__navbarSearch">
     <h1 slot="__modal-title" class="__slot-wrapper">Pencarian</h1>
-    <div slot="__modal-content" class="__slot-wrapper ">
+    <div slot="__modal-content" class="__slot-wrapper">
+      <!-- svelte-ignore a11y-autofocus -->
       <input
         type="text"
         class="border-2 rounded px-2 py-1 w-full mb-3 border-[#00d6a1]"
@@ -74,6 +75,7 @@
               class="h-24 flex items-center justify-center"
               in:fade={{ duration: 200 }}
             >
+              5001
               <LoadingCircleAnimationComponent
                 size={{ w: "w-12", h: "h-12" }}
               />
