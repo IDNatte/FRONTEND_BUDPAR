@@ -43,7 +43,7 @@
                     lastPage = data.lastPage;
                     currentPage = data.currentPage;
                     showLoader = false;
-                  }
+                  },
                 );
               } else {
                 fetchNextData(nextPage, "tourist-attractions").then((data) => {
@@ -91,7 +91,7 @@
       root: document.querySelector(".__content-page-tour"),
       rootMargin: "0px",
       threshold: 0.5,
-    }
+    },
   );
 
   function initData() {
@@ -120,7 +120,7 @@
             currentPage = data.currentPage;
             showContentLoader = false;
             activeTabs = event.detail;
-          }
+          },
         );
       } else {
         fetchData("tourist-attractions").then((data) => {
@@ -186,7 +186,7 @@
 
   async function fetchNextData(next, endpoint) {
     let list = await fetch(
-      `${API}/${endpoint}?paginate=${perPage}&page=${next}`
+      `${API}/${endpoint}?paginate=${perPage}&page=${next}`,
     );
 
     if (list.status === 200) {
@@ -302,6 +302,7 @@
           {/if}
           <ChevronDownIcon />
         </button>
+        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <div
           tabindex="0"
           class="__dropdown border-2 bg-slate-100 invisible border-transparent rounded w-60 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:outline-none group-focus-within:opacity-100 group-focus-within:translate-y-4"

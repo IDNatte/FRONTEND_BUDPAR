@@ -1,6 +1,54 @@
 <script>
-  console.log("loaded");
-  import { API, BASEURI } from "../../../lib/config";
+  import { fade } from "svelte/transition";
+
+  import sanitizeHtml from "sanitize-html";
+
+  import { APIV2, BASEURI } from "../../../lib/config";
+
+  import LoadingCircleAnimationComponent from "../../../components/animation/LoadingCircleAnimationComponent.svelte";
+  import EventCalendarCardComponent from "../../../components/card/EventCalendarCardComponent.svelte";
+
+  const months = [
+    "Januari",
+    "Febuari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  async function getEvent(month = undefined, category = undefined) {
+    let event = await fetch(
+      `${APIV2}/event?paginate=3&kategori=${category ? category : ""}&bulan=${month ? month : ""}`,
+    );
+
+    if (event.status === 200) {
+      let eventData = await event.json();
+      return eventData.data;
+    } else {
+      throw new Error("Could not fetch data !");
+    }
+  }
+
+  async function getCategory() {
+    let category = await fetch(`${APIV2}/kategori-event`);
+
+    if (category.status === 200) {
+      let categoryData = await category.json();
+      return categoryData.data;
+    } else {
+      throw new Error("Could not fetch data !");
+    }
+  }
+
+  let selectedMonth = undefined;
+  let selectedCategory = undefined;
 </script>
 
 <!-- meta tag for SEO -->
@@ -24,6 +72,16 @@
 </svelte:head>
 <!-- meta tag for SEO -->
 
+<!-- {#await getCategory()}
+  <div class="w-full h-screen pb-24">
+    <div
+      class="h-screen flex items-center justify-center py-32"
+      in:fade={{ duration: 200 }}
+    >
+      <LoadingCircleAnimationComponent size={{ w: "w-12", h: "h-12" }} />
+    </div>
+  </div>
+{:then data} -->
 <div class="__content-page-event-calendar">
   <div class="pt-36 relative">
     <img
@@ -52,9 +110,88 @@
     </div>
   </div>
 
-  <div class="pt-36 relative">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem aut nihil ab
-    optio accusantium fugit iste obcaecati perferendis quod, reprehenderit quas
-    ratione nisi qui odio animi neque officia! Commodi, consequuntur?
+  <div class="pt-20 relative">
+    {#await getCategory()}
+      <div
+        class="col-span-full flex items-center justify-center"
+        in:fade={{ duration: 200 }}
+      >
+        <LoadingCircleAnimationComponent size={{ w: "w-12", h: "h-12" }} />
+      </div>
+    {:then data}
+      <!-- promise was fulfilled -->
+      <div class="w-full md:px-10 lg:px-32 flex justify-end flex-row">
+        <!-- bulan -->
+        <div class="py-2 md:py-0 md:px-2">
+          {selectedMonth}
+          <select
+            class="md:w-[11em] px-1 py-2 rounded"
+            id="months"
+            name="months"
+            bind:value={selectedMonth}
+          >
+            <option value={undefined}>Bulan</option>
+            {#each months as month, index}
+              <!-- content here -->
+              <option value={index + 1}>{month}</option>
+            {/each}
+          </select>
+        </div>
+
+        <!-- kategori -->
+        <div class="py-2 px-5 md:py-0 md:px-2">
+          {selectedCategory}
+          <select
+            class="md:w-[11em] px-1 py-2 rounded"
+            id="categories"
+            name="categories"
+            bind:value={selectedCategory}
+          >
+            <option value={undefined}>Kategori</option>
+            {#each data as { uuid, name }}
+              <option value={uuid}>{name}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/await}
+    <div
+      class="__content-event-calendar py-32 md:px-10 lg:px-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-7 gap-y-11 md:gap-y-14 pb-24"
+    >
+      {#await getEvent(selectedMonth, selectedCategory)}
+        <div
+          class="col-span-full flex items-center justify-center"
+          in:fade={{ duration: 200 }}
+        >
+          <LoadingCircleAnimationComponent size={{ w: "w-12", h: "h-12" }} />
+        </div>
+      {:then data}
+        {#if data.length !== 0}
+          <!-- {JSON.stringify(data)} -->
+          {#each data as { uuid, alamat, thumb, tanggal, event, body, kategori_event }}
+            <!-- <div class="testing"> -->
+            <!-- {@html body} -->
+            <!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem aut
+              nihil ab optio accusantium fugit iste obcaecati perferendis quod,
+              reprehenderit quas ratione nisi qui odio animi neque officia!
+              Commodi, consequuntur? -->
+            <!-- </div> -->
+            <EventCalendarCardComponent
+              eventCalendarTitle={event}
+              eventCalendarExc={sanitizeHtml(body, { allowedTags: [] })}
+              eventCalendarThumb={thumb}
+              eventCalendar={tanggal}
+            />
+          {/each}
+        {/if}
+
+        {#if data.length === 0}
+          <!-- content here -->
+          <div class="col-span-full flex items-center justify-center">
+            Tidak ada event di bulan {months[selectedMonth]}
+          </div>
+        {/if}
+      {/await}
+    </div>
   </div>
 </div>

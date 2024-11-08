@@ -9,6 +9,7 @@
 <div class="__tabs border-b px-5 lg:px-14 pb-5 flex justify-center lg:block">
   <ul class="flex">
     {#each tabItems as item}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <li on:click={() => dispatch("tabChange", item)}>
         <div
           class:__active={item === activeItem}

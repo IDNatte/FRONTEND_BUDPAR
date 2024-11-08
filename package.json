@@ -12,6 +12,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@types/sanitize-html": "^2.13.0",
     "autoprefixer": "^10.4.4",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.12",
@@ -29,6 +30,7 @@
   "dependencies": {
     "leaflet": "1.7.1",
     "lodash": "^4.17.21",
+    "sanitize-html": "^2.13.1",
     "sirv-cli": "^2.0.0",
     "svelte-carousel": "^1.0.17-rc4",
     "svelte-lazy": "^1.1.0",

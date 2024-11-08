@@ -19,6 +19,7 @@
 <svelte:window on:keyup={escapePressListener} />
 
 {#if $imageViewerState.viewer === className}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="__modal {className} {$imageViewerState.show
       ? 'flex'

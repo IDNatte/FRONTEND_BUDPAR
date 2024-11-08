@@ -319,7 +319,7 @@
       </div>
     </div>
 
-    <div class="content __activity">
+    <!-- <div class="content __activity">
       <div class="__wrapper flex justify-between items-center">
         <div class="__section-title">
           <h1 class="font-bold text-3xl pb-2">Youtube Highlight</h1>
@@ -366,7 +366,7 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <FooterComponent />
