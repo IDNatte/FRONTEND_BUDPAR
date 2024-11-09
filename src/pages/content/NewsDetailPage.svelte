@@ -1,8 +1,6 @@
 <script>
-  import { Tabs, Tab, TabList, TabPanel } from "svelte-tabs";
   import { querystring, link, location } from "svelte-spa-router";
   import { fade, fly } from "svelte/transition";
-  import Lazy from "svelte-lazy";
 
   import { API, ASSETS, BASEURI } from "../../lib/config";
 

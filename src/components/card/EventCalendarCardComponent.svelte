@@ -6,10 +6,10 @@
 
   import { ASSETS } from "../../lib/config";
 
+  export let event;
   export let eventCalendar;
   export let eventCalendarTitle;
   export let eventCalendarThumb;
-  // export let eventcalendarSlug;
   export let eventCalendarExc;
 </script>
 
@@ -35,17 +35,17 @@
     <p class="text-gray-400 pt-[1.5rem] pb-[2rem]">
       {truncate(eventCalendarExc, { length: 70 })}
     </p>
-    <!-- <div class="__card-link w-full h-auto text-center pb-5">
+    <div class="__card-link w-full h-auto text-center pb-5">
       <a
         class="border-2 px-[2rem] md:px-[2rem] py-[10px] rounded-[14px] border-[#00d6a1] text-[#00d6a1] font-semibold"
-        href="/event-detail?{new URLSearchParams({
+        href="/event-calendar-detail?{new URLSearchParams({
           title: eventCalendarTitle,
-          q: eventCalendarSlug,
+          event: event,
         }).toString()}"
         use:link
       >
         Baca Selengkapnya
       </a>
-    </div> -->
+    </div>
   </div>
 </div>

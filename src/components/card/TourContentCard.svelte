@@ -30,7 +30,7 @@
       </Lazy>
 
       <div
-        class="__card-content rounded-b-[20px] w-[291px] lg:w-full mx-2 px-6 absolute bottom-0 py-5 text-white"
+        class="__card-content rounded-b-[20px] w-[291px] md:w-full mx-2 px-6 absolute bottom-0 py-5 text-white"
       >
         <h3 class="text-xl font-bold capitalize pb-2 __text-shadow">
           {tourTitle}

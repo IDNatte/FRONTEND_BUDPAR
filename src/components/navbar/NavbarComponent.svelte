@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div class="hidden md:flex md:items-center __navbar-button">
+  <div class="hidden lg:flex md:items-center __navbar-button">
     <a class="flex items-center px-6" href="/event-calendar" use:link>
       <CalendarIcon />
       <span class="pl-3">Kalender Event</span>

@@ -62,6 +62,10 @@ export const routes = {
     asyncComponent: () => import('./misc/calendar/EventcalendarPage.svelte')
   }),
 
+  "/event-calendar-detail": wrap({
+    asyncComponent: () => import('./content/EventCalendarDetailPage.svelte')
+  }),
+
   // Not Found page
   "*": wrap({
     asyncComponent: () => import('./error/NotFoundPage.svelte')

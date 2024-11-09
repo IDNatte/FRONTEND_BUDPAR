@@ -3,6 +3,7 @@
 
   import sanitizeHtml from "sanitize-html";
 
+  import { eventCalendarStore } from "../../../lib/store/eventCalendar/eventCalendare.store";
   import { APIV2, BASEURI } from "../../../lib/config";
 
   import LoadingCircleAnimationComponent from "../../../components/animation/LoadingCircleAnimationComponent.svelte";
@@ -30,6 +31,7 @@
 
     if (event.status === 200) {
       let eventData = await event.json();
+      eventCalendarStore.set({ data: eventData.data });
       return eventData.data;
     } else {
       throw new Error("Could not fetch data !");
@@ -123,7 +125,7 @@
       <div class="w-full md:px-10 lg:px-32 flex justify-end flex-row">
         <!-- bulan -->
         <div class="py-2 md:py-0 md:px-2">
-          {selectedMonth}
+          <!-- {selectedMonth} -->
           <select
             class="md:w-[11em] px-1 py-2 rounded"
             id="months"
@@ -140,7 +142,7 @@
 
         <!-- kategori -->
         <div class="py-2 px-5 md:py-0 md:px-2">
-          {selectedCategory}
+          <!-- {selectedCategory} -->
           <select
             class="md:w-[11em] px-1 py-2 rounded"
             id="categories"
@@ -169,18 +171,12 @@
         {#if data.length !== 0}
           <!-- {JSON.stringify(data)} -->
           {#each data as { uuid, alamat, thumb, tanggal, event, body, kategori_event }}
-            <!-- <div class="testing"> -->
-            <!-- {@html body} -->
-            <!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem aut
-              nihil ab optio accusantium fugit iste obcaecati perferendis quod,
-              reprehenderit quas ratione nisi qui odio animi neque officia!
-              Commodi, consequuntur? -->
-            <!-- </div> -->
             <EventCalendarCardComponent
               eventCalendarTitle={event}
               eventCalendarExc={sanitizeHtml(body, { allowedTags: [] })}
               eventCalendarThumb={thumb}
               eventCalendar={tanggal}
+              event={uuid}
             />
           {/each}
         {/if}

@@ -2,9 +2,8 @@
   import { onMount } from "svelte";
   import { link } from "svelte-spa-router";
   import { fade } from "svelte/transition";
-  import Lazy from "svelte-lazy";
 
-  import { BASEURI, API, ASSETS } from "../../lib/config";
+  import { BASEURI, API } from "../../lib/config";
 
   import SliderLoadingAnimationComponent from "../../components/animation/SliderLoadingAnimationComponent.svelte";
   import LoadingCircleAnimationComponent from "../../components/animation/LoadingCircleAnimationComponent.svelte";
@@ -319,7 +318,7 @@
       </div>
     </div>
 
-    <!-- <div class="content __activity">
+    <div class="content __activity">
       <div class="__wrapper flex justify-between items-center">
         <div class="__section-title">
           <h1 class="font-bold text-3xl pb-2">Youtube Highlight</h1>
@@ -329,13 +328,11 @@
 
       <div class="pt-10 pb-32">
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x gap-y-20"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20"
           in:fade={{ duration: 200 }}
         >
           <iframe
-            height="300"
-            width="500"
-            class="rounded-lg"
+            class="rounded-lg w-full"
             src="https://www.youtube.com/embed/fvhj8UfPsjY?si=slpXPhx38TYCCyCD"
             title="YouTube video player"
             frameborder="0"
@@ -344,9 +341,7 @@
           />
 
           <iframe
-            height="300"
-            width="500"
-            class="rounded-lg"
+            class="rounded-lg w-full"
             src="https://www.youtube.com/embed/_WmZAPCXfjc?si=2i26k4AWQLJliaH1"
             title="YouTube video player"
             frameborder="0"
@@ -355,9 +350,7 @@
           />
 
           <iframe
-            height="300"
-            width="500"
-            class="rounded-lg"
+            class="rounded-lg w-full"
             src="https://www.youtube.com/embed/iM-FC0y1Pco?si=Wa4sry5hZ7SE3q1O"
             title="YouTube video player"
             frameborder="0"
@@ -366,7 +359,7 @@
           />
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 
   <FooterComponent />

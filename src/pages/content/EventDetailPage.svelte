@@ -1,5 +1,5 @@
 <script>
-  import { querystring, link, location } from "svelte-spa-router";
+  import { querystring, location } from "svelte-spa-router";
   import { fade, fly } from "svelte/transition";
 
   import { API, ASSETS, BASEURI } from "../../lib/config";

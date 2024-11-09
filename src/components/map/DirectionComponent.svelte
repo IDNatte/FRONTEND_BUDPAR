@@ -117,7 +117,7 @@
       getDirection(targetDest, currentPos).then((direction) => {
         L.geoJSON(direction.geoJsonPath, {
           style: {
-            color: "red",
+            color: "#00d6a1",
             weight: 3,
             opacity: 1,
           },
@@ -130,7 +130,7 @@
                 <br>
                 <span>Waktu Tempuh : ${direction.duration.hour} jam ${direction.duration.minute} menit ${direction.duration.second} detik</span>
               `,
-              popupOptions
+              popupOptions,
             );
           },
         }).addTo(map);

@@ -10,6 +10,7 @@
   import { sidebarState } from "../../lib/store/sidebar/sidebar.state";
   import { closeSidebar } from "../../lib/module/sidebar";
   import { openModal } from "../../lib/module/modal";
+  import CalendarIcon from "../../assets/svg/CalendarIcon.svelte";
 
   function goHere(path) {
     push(`/${path}`);
@@ -25,11 +26,11 @@
 {#if $sidebarState.show === true}
   <div
     transition:fly={{ x: -200 }}
-    class="__top sm:flex md:hidden fixed inset-0 z-40 bg-white w-7/12 shadow {$sidebarState.show
+    class="__top sm:flex lg:hidden fixed inset-0 z-40 bg-white w-7/12 shadow {$sidebarState.show
       ? 'visible'
       : 'obstructured'}"
   >
-    <div class="__sidebar-wrapper pt-[5rem]">
+    <div class="__sidebar-wrapper pt-[5rem] w-full">
       <ul>
         <li>
           <a
@@ -43,6 +44,18 @@
               <SearchDarkIcon />
             </div>
             <span class="__sidebar-item-content pl-5">Cari</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="__sidebar-item flex items-center py-4 w-full duration-300 border-b-[1px] hover:bg-[#e0e0e0]"
+            href="#!"
+            on:click|preventDefault={() => goHere("event-calendar")}
+          >
+            <div class="__sidebar-item-icon pl-5">
+              <CalendarIcon />
+            </div>
+            <span class="__sidebar-item-content pl-5">Even Kalender</span>
           </a>
         </li>
         <li>
@@ -88,7 +101,7 @@
 
 <style>
   .__top {
-    z-index: 999;
+    z-index: 1000;
   }
 
   .__sidebar-item-icon {

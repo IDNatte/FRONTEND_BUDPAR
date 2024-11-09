@@ -103,7 +103,7 @@
           [data.data.hotel_detail.latitude, data.data.hotel_detail.longitude],
           {
             icon: markerHotel(),
-          }
+          },
         )
           .bindPopup(`Hotel ${data.data.hotel_detail.name}`)
           .addTo(map);
@@ -117,7 +117,7 @@
           [data.data.food_detail.latitude, data.data.food_detail.longitude],
           {
             icon: markerResto(),
-          }
+          },
         )
           .bindPopup(`Restoran ${data.data.food_detail.name}`)
           .addTo(map);
@@ -131,7 +131,7 @@
           [data.data.wisata_detail.latitude, data.data.wisata_detail.longitude],
           {
             icon: markerTour(),
-          }
+          },
         )
           .bindPopup(`wisata ${data.data.wisata_detail.name}`)
           .addTo(map);

@@ -11,7 +11,6 @@
   import LoadingCircleAnimationComponent from "../../components/animation/LoadingCircleAnimationComponent.svelte";
   import MapCardComponent from "../../components/card/MapCardComponent.svelte";
   import FooterComponent from "../../components/footer/FooterComponent.svelte";
-  // import ModalComponent from "../../components/modal/ModalComponent.svelte";
   import ImageViewerComponent from "../../components/modal/ImageViewerComponent.svelte";
 
   import PhoneCircleGreenIcon from "../../assets/svg/PhoneCircleGreenIcon.svelte";
