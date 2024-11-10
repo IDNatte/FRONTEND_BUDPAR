@@ -1,5 +1,8 @@
 <script>
+  import { onDestroy, onMount } from "svelte";
+
   import { fade } from "svelte/transition";
+  import { get } from "svelte/store";
 
   import sanitizeHtml from "sanitize-html";
 
@@ -7,7 +10,9 @@
   import { APIV2, BASEURI } from "../../../lib/config";
 
   import LoadingCircleAnimationComponent from "../../../components/animation/LoadingCircleAnimationComponent.svelte";
+  import ContentLoadAnimationComponent from "../../../components/animation/ContentLoadAnimationComponent.svelte";
   import EventCalendarCardComponent from "../../../components/card/EventCalendarCardComponent.svelte";
+  import FooterComponent from "../../../components/footer/FooterComponent.svelte";
 
   const months = [
     "Januari",
@@ -24,16 +29,72 @@
     "Desember",
   ];
 
+  const maxItem = 3;
+  let currentPage = 1;
+  let maxPage = undefined;
+
+  let selectedMonth = undefined;
+  let selectedCategory = undefined;
+  let contentLoad = undefined;
+  let observerAnchor;
+
+  const observer = new IntersectionObserver(
+    async (event) => {
+      const [entries] = event;
+      if (entries.isIntersecting) {
+        console.log(maxPage);
+        if (currentPage < maxPage) {
+          currentPage += 1;
+          contentLoad = true;
+
+          await getNextPageEvent(selectedMonth, selectedCategory, currentPage);
+        }
+      }
+    },
+    {
+      root: observerAnchor,
+      rootMargin: "0px",
+      threshold: 0.5,
+    },
+  );
+
   async function getEvent(month = undefined, category = undefined) {
+    // loading = true;
     let event = await fetch(
-      `${APIV2}/event?paginate=3&kategori=${category ? category : ""}&bulan=${month ? month : ""}`,
+      `${APIV2}/event?paginate=${maxItem}&page=${currentPage}&kategori=${category ? category : ""}&bulan=${month ? month : ""}`,
     );
 
     if (event.status === 200) {
       let eventData = await event.json();
       eventCalendarStore.set({ data: eventData.data });
+      maxPage = eventData.last_page;
+      currentPage = 1;
       return eventData.data;
     } else {
+      throw new Error("Could not fetch data !");
+    }
+  }
+
+  async function getNextPageEvent(
+    month = undefined,
+    category = undefined,
+    page = undefined,
+  ) {
+    let event = await fetch(
+      `${APIV2}/event?paginate=${maxItem}&page=${page}&kategori=${category ? category : ""}&bulan=${month ? month : ""}`,
+    );
+
+    if (event.status === 200) {
+      let eventData = await event.json();
+      let previewData = get(eventCalendarStore).data;
+      eventCalendarStore.set({
+        data: [...previewData, ...eventData.data],
+      });
+
+      contentLoad = false;
+      return eventData.data;
+    } else {
+      contentLoad = false;
       throw new Error("Could not fetch data !");
     }
   }
@@ -49,8 +110,13 @@
     }
   }
 
-  let selectedMonth = undefined;
-  let selectedCategory = undefined;
+  onMount(() => {
+    observer.observe(document.querySelector(".__footer"));
+  });
+
+  onDestroy(() => {
+    observer.unobserve(document.querySelector(".__footer"));
+  });
 </script>
 
 <!-- meta tag for SEO -->
@@ -74,17 +140,7 @@
 </svelte:head>
 <!-- meta tag for SEO -->
 
-<!-- {#await getCategory()}
-  <div class="w-full h-screen pb-24">
-    <div
-      class="h-screen flex items-center justify-center py-32"
-      in:fade={{ duration: 200 }}
-    >
-      <LoadingCircleAnimationComponent size={{ w: "w-12", h: "h-12" }} />
-    </div>
-  </div>
-{:then data} -->
-<div class="__content-page-event-calendar">
+<div class="__content-page-event-calendar" bind:this={observerAnchor}>
   <div class="pt-36 relative">
     <img
       src="/assets/images/placeholder/i-love-tapin.jpg"
@@ -142,7 +198,6 @@
 
         <!-- kategori -->
         <div class="py-2 px-5 md:py-0 md:px-2">
-          <!-- {selectedCategory} -->
           <select
             class="md:w-[11em] px-1 py-2 rounded"
             id="categories"
@@ -160,7 +215,7 @@
     <div
       class="__content-event-calendar py-32 md:px-10 lg:px-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-7 gap-y-11 md:gap-y-14 pb-24"
     >
-      {#await getEvent(selectedMonth, selectedCategory)}
+      <!-- {#await getEvent(selectedMonth, selectedCategory)}
         <div
           class="col-span-full flex items-center justify-center"
           in:fade={{ duration: 200 }}
@@ -169,7 +224,6 @@
         </div>
       {:then data}
         {#if data.length !== 0}
-          <!-- {JSON.stringify(data)} -->
           {#each data as { uuid, alamat, thumb, tanggal, event, body, kategori_event }}
             <EventCalendarCardComponent
               eventCalendarTitle={event}
@@ -182,12 +236,49 @@
         {/if}
 
         {#if data.length === 0}
-          <!-- content here -->
           <div class="col-span-full flex items-center justify-center">
             Tidak ada event di bulan {months[selectedMonth]}
+          </div>
+        {/if}
+      {/await} -->
+
+      {#await getEvent(selectedMonth, selectedCategory)}
+        <div
+          class="col-span-full flex items-center justify-center"
+          in:fade={{ duration: 200 }}
+        >
+          <LoadingCircleAnimationComponent size={{ w: "w-12", h: "h-12" }} />
+        </div>
+      {:then}
+        {#if $eventCalendarStore.data}
+          {#each $eventCalendarStore.data as { uuid, thumb, tanggal, event, body }}
+            <EventCalendarCardComponent
+              eventCalendarTitle={event}
+              eventCalendarExc={sanitizeHtml(body, { allowedTags: [] })}
+              eventCalendarThumb={thumb}
+              eventCalendar={tanggal}
+              event={uuid}
+            />
+          {/each}
+        {/if}
+        {#if $eventCalendarStore.data.length === 0}
+          <div class="col-span-full flex items-center justify-center">
+            Tidak ada event {`${selectedMonth ? `di bulan ${months[selectedMonth - 1]}` : ""}`}
           </div>
         {/if}
       {/await}
     </div>
   </div>
 </div>
+
+{#if contentLoad}
+  <div class="fixed top-0 flex mt-12 w-full justify-center items-center">
+    <div
+      class="flex justify-center drop-shadow-lg items-center rounded-full bg-white w-14 h-14"
+      transition:fade={{ duration: 200 }}
+    >
+      <ContentLoadAnimationComponent size={{ w: "w-10", h: "h-10" }} />
+    </div>
+  </div>
+{/if}
+<FooterComponent />

@@ -16,6 +16,7 @@
   import PinCircleGreenIcon from "../../assets/svg/PinCircleGreenIcon.svelte";
   import MapFoldIcon from "../../assets/svg/MapFoldIcon.svelte";
   import FlyIcon from "../../assets/svg/FlyIcon.svelte";
+  import WorldCircleGreenIcon from "../../assets/svg/WorldCircleGreenIcon.svelte";
 
   $: title = new URLSearchParams($querystring).get("title");
   let event = new URLSearchParams($querystring).get("event");
@@ -80,7 +81,7 @@
       <h2 class="font-bold text-2xl uppercase">
         {data.event}
       </h2>
-      <p class="py-5 lg:py-24">
+      <p class="py-5 lg:py-24 prose !break-words">
         {@html data.body}
       </p>
 
@@ -192,6 +193,18 @@
             >
           </div>
         </div>
+
+        {#if data.instagram}
+          <div class="__open-hours flex items-center pt-5">
+            <WorldCircleGreenIcon />
+            <div class="__open-hours-text pl-3">
+              <h3 class="font-bold">Instagram</h3>
+              <a href="https://instagram/{data.instagram}" target="_blank"
+                >{data.instagram}</a
+              >
+            </div>
+          </div>
+        {/if}
 
         <div class="__open-hours flex items-center pt-5">
           <RupiahCircleGreenIcon />
